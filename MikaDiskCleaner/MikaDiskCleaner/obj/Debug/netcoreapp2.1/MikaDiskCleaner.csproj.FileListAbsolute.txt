@@ -9,3 +9,4 @@ C:\Users\mgo\Desktop\Folder\MikaDiskCleaner\MikaDiskCleaner\MikaDiskCleaner\obj\
 C:\Users\mgo\Desktop\Folder\MikaDiskCleaner\MikaDiskCleaner\MikaDiskCleaner\obj\Debug\netcoreapp2.1\MikaDiskCleaner.AssemblyInfo.cs
 C:\Users\mgo\Desktop\Folder\MikaDiskCleaner\MikaDiskCleaner\MikaDiskCleaner\obj\Debug\netcoreapp2.1\MikaDiskCleaner.dll
 C:\Users\mgo\Desktop\Folder\MikaDiskCleaner\MikaDiskCleaner\MikaDiskCleaner\obj\Debug\netcoreapp2.1\MikaDiskCleaner.pdb
+C:\Users\mgo\Desktop\Folder\MikaDiskCleaner\MikaDiskCleaner\MikaDiskCleaner\bin\Debug\netcoreapp2.1\appsettings.json
