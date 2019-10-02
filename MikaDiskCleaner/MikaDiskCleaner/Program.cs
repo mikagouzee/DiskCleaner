@@ -46,11 +46,7 @@ namespace MikaDiskCleaner
             Console.WriteLine(configuration.AsEnumerable());
             return configuration;
         }
-
-
-
-
-
+                          
     }
 
 

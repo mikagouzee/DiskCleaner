@@ -10,7 +10,6 @@ namespace MikaDiskCleaner
     public class DiskCleaner
     {
         private List<FileInfo> existingFiles = new List<FileInfo>();
-        private DirectoryInfo doublonFolder;
 
         private readonly FolderSorter _sorter;
 
@@ -21,13 +20,13 @@ namespace MikaDiskCleaner
 
         public void Run(string rootFolder)
         {
-            CreateDoublonsFolder(GetFolderPath());
+            DirectoryInfo doublonFolder = CreateDoublonsFolder(GetFolderPath());
 
             DirectoryInfo root = new DirectoryInfo(rootFolder);
 
             if (root.Exists)
             {
-                WalkDirectoryTree(root);
+                WalkDirectoryTree(root, doublonFolder);
             }
 
             _sorter.SortFolder(doublonFolder);
@@ -51,12 +50,12 @@ namespace MikaDiskCleaner
 
         }
 
-        private void CreateDoublonsFolder(string folderPath)
+        private DirectoryInfo CreateDoublonsFolder(string folderPath)
         {
-            if (!string.IsNullOrEmpty(folderPath))
-            {
-                doublonFolder = new DirectoryInfo(folderPath);
-            }
+            if (string.IsNullOrEmpty(folderPath))
+                return new DirectoryInfo(folderPath);
+
+            DirectoryInfo doublonFolder = new DirectoryInfo(folderPath);
 
             if (!doublonFolder.Exists)
             {
@@ -65,7 +64,7 @@ namespace MikaDiskCleaner
                 _sorter.CreateSubFolders(doublonFolder);
 
                 Console.WriteLine("Doublon folder created");
-                return;
+                return doublonFolder; 
             }
             else
             {
@@ -73,9 +72,11 @@ namespace MikaDiskCleaner
 
                 _sorter.CreateSubFolders(doublonFolder);
             }
+
+            return doublonFolder;
         }
 
-        private void WalkDirectoryTree(DirectoryInfo root)
+        private void WalkDirectoryTree(DirectoryInfo root, DirectoryInfo doublonFolder)
         {
             List<FileInfo> files = root.GetFiles("*.*").ToList();
 
@@ -90,7 +91,7 @@ namespace MikaDiskCleaner
                 {
                     if (File.Exists(fileInfo.FullName))
                     {
-                        CompareFiles(fileInfo);
+                        CompareFiles(fileInfo, doublonFolder);
                     }
                     else
                     {
@@ -102,12 +103,12 @@ namespace MikaDiskCleaner
 
                 foreach (var dirInfo in subDirs)
                 {
-                    WalkDirectoryTree(dirInfo);
+                    WalkDirectoryTree(dirInfo, doublonFolder);
                 }
             }
         }
 
-        private bool CompareFiles(FileInfo file)
+        private bool CompareFiles(FileInfo file, DirectoryInfo doublonFolder)
         {
             bool result = false;
             Console.WriteLine($"==== Checking if {file.Name} already exists : ====");
